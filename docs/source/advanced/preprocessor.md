@@ -50,16 +50,16 @@ bot.converse()
 
 <br>
 
-다음과 같은 경우 \<pattern> 에 있는 대로 '너 여자친구 없어?' 라는 질문에는 잘 대답 하지만 '정말', '진짜' 같은 **부사**(MAG)가 들어가게 되면 효과적으로 잘 처리하지 못해요. 더군다나 부사는 문장의 어느 자리에 들어가도 자연스럽기 때문에 처리하기가 더 까다로워요. 
+다음과 같은 경우 \<pattern> 에 있는 대로 '너 여자친구 없어?' 라는 질문에는 잘 대답 하지만 '정말', '진짜' 같은 단어가 들어가게 되면 효과적으로 잘 처리하지 못해요. 더군다나 이러한 부사(MAG)의 경우는 문장의 어느 자리에 들어가도 자연스럽기 때문에 처리하기가 더 까다로워요. 
 <br>
 <br>
-이를 해결하기 위해서 '진짜', '정말' 과 같은 부사를 패턴 매칭 하기 전에 모두 제거해줄 수 있어요.
+이를 해결하기 위해서 '진짜', '정말' 과 같은 특정 단어를 패턴 매칭 하기 전에 모두 제거해줄 수 있어요.
 
 ```python
-from koml import KomlBot, RemovePosPreprocessor, CustomBag
+from koml import KomlBot, FilterPreprocessor, CustomBag
 
-# 부사 제거 전처리
-preprocessor = RemovePosPreprocessor(npos=['MAG'])
+# 특정 부사 제거 전처리
+preprocessor = FilterPreprocessor(filter_words=['진짜', '아주', '정말'])
 bag = CustomBag(preprocessor=preprocessor)
 
 bot = KomlBot(bag, debug=True)
@@ -67,7 +67,7 @@ bot.learn(['preprocessor.xml'])
 bot.converse()
 ```
 <br>
-다음과 같이 부사와 관계 없이 잘 매칭되는것을 확인할 수 있어요.
+다음과 같이 '진짜' 등 단어에 관계 없이 잘 매칭되는것을 확인할 수 있어요.
 <br>
 
 ```

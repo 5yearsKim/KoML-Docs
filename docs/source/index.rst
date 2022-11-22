@@ -1,3 +1,12 @@
+
+KoML Documentation
+------------------
+
+.. include:: ./intro.md
+   :parser: myst_parser.sphinx_
+
+
+
 Contents
 --------
 
@@ -25,9 +34,9 @@ Contents
    advanced/preprocessor.md
    advanced/word_relay.md
 
-Indices and tables
-==================
+.. Indices and tables
+.. ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`

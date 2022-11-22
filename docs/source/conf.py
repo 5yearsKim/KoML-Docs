@@ -24,6 +24,7 @@ extensions = [
     'sphinx.ext.duration',
     'sphinx.ext.autodoc',
     'myst_parser',
+
 ]
 
 source_suffix = {
