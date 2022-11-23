@@ -17,8 +17,9 @@
 \<func> 태그를 이용하기 위해서는 먼저 파이썬 함수를 정의해줘야해요. 지금 시각을 알려주는 함수를 간단히 작성해볼게요.
 
 ```python
+import time
+
 def show_date(context=None):
-    import time
     tick = time.localtime()
     h, m = tick.tm_hour, tick.tm_min
 

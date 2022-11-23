@@ -34,6 +34,12 @@ Contents
    advanced/preprocessor.md
    advanced/word_relay.md
 
+.. toctree::
+   :maxdepth: 1 
+   :caption: Misc 
+
+   misc/talk.md
+
 .. Indices and tables
 .. ==================
 

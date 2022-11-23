@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.abspath('../..'))   # 필자의 path
 project = 'KoML'
 copyright = '2022, Onion Kim'
 author = 'Onion Kim'
-release = '1.0.0'
+release = '1.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
