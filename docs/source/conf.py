@@ -35,7 +35,7 @@ source_suffix = {
 templates_path = ['_templates']
 exclude_patterns = []
 
-language='en'
+language='ko'
 
 
 
