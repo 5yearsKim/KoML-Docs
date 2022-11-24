@@ -30,7 +30,7 @@ def show_date(context=None):
         am_pm = '오전'
     return f'{am_pm} {h}시 {m}분'
 ```
->**NOTE** 모든 KoML함수의 마지막 parameter는 context 가 주어져야 해요. context는 KoML 의 전반적인 동작(앞 뒤 문맥, 단어 기억 등)에 중요한 역할을 한답니다.
+>**NOTE** 모든 KoML함수의 마지막 parameter는 context 가 주어져야 해요. context는 KoML 의 전반적인 동작(앞 뒤 문맥, 단어 기억 등)에 중요한 역할을 한답니다. 자세한 내용은 **컨텍스트** 항목을 참조해주세요. 
 
 <br>
 
@@ -74,65 +74,45 @@ bot.converse()
 <br>
 
 ## \<arg>
-\<func> 에는 인자가 들어갈 수 있어요. \<arg>감싸서 필요한 인자를 \<func>태그 안에 넣어주세요. <br>
-\<func>과 \<arg> 를 이용하면 이런 기능을 구현해볼 수 있어요.
+
+\<func> 도 파이썬 함수에 인자(Arguments)를 전달해줄 수 있어요.  \<arg>로 감싸서 필요한 인자를 \<func>태그 안에 넣어주세요. <br>
+\<func>과 \<arg> 를 이용하면  인자가 필요한 함수 기능을 구현해볼 수 있어요. 
+<br>
+<br>
+\<func> 와 \<arg>를 이용한 예시로 연산 기능을 구현해볼게요.
 
 ```
-<< 내 이름 뭔지 알아?
->> 아니.. 뭔데?
-<< 어니언이야
->> 아 오키ㅋㅋ 이제 기억할게! 
-<< 내 이름 뭔지 알아?
->> 응ㅋㅋ 알지
-<< 뭔데?
->> 어니언이잖아ㅋㅋ 날 뭘로 보고
+<< 3 더하기 5는 뭐야?
+>> 8 이잖아ㅋㅋ 맞지?
+<< 429 더하기 99는 뭐야?
+>> 528 이잖아ㅋㅋ 맞지?
 ```
 
 <br>
 
-KomlBot 이 \<set>을 통해 특정 키워드를 알고 있는지 여부를 판단하는 함수를 다음과 같이 작성할 수 있어요.
+먼저 더하기 함수를 python 으로 정의해주세요. KoML 함수의 인자(Arguments)와 반환형(return type)은 str이라는 점을 유의해주세요!
 
 ```python
-def know(key: str, context= None) -> str:
-    if key in context.memo:
-        return 'true'
-    else:
-        return 'false'
+def plus(a: str, b: str, context=None) -> str:
+    try:
+        a_num = int(a)
+        b_num = int(b)
+        return str(a_num + b_num)
+    except:
+        return '???'
 ```
 <br>
-koml 파일에 다음 케이스들을 추가해주세요.
+xml 파일에 다음 케이스를 추가해주세요..
 
 ```xml
-<case id = 'know_username'>
-  <pattern>* 내 이름_j 뭔지 알아_s</pattern>
+<case>
+  <!-- 숫자만 가져오기 -->
+  <pattern><blank pos='SN'/> 더하기 <blank pos='SN'/> 뭐_e_sf</pattern>
   <template>
-    <switch>
-      <!-- 'username' 을 아는지 여부를 pivot 으로 제공 -->
-      <pivot><func name='know'><arg>username</arg></func></pivot>
-      <scase pivot='true'>응ㅋㅋ 알지</scase>
-      <default>아니.. 뭔데?</default>
-    </switch>
+    <func name='plus'>
+      <arg><blank idx='1'/></arg><arg><blank idx='2'/></arg>
+    </func> 이잖아ㅋㅋ 맞지?
   </template>
-</case>
-
-<!-- 이름을 아는 경우 -->
-<case>
-  <follow cid='know_username'>응 *</follow>
-  <pattern>
-    <li>* 뭔데_s</li>
-    <li>뭐야_s</li>
-  </pattern>
-  <template><get key='username'/>_ix잖아ㅋㅋ 날 뭘로 보고</template>
-</case>
-
-<!-- 이름을 모르는 경우 -->
-<case>
-  <follow cid='know_username'>아니 *</follow>
-  <pattern>
-    <li>내 이름은 <blank pos='N'/></li>
-    <li><blank pos='N'/></li>
-  </pattern>
-  <template>아 오키ㅋㅋ 이제 기억할게! <think><set key='username'><blank/></set></think></template>
 </case>
 ```
 
@@ -143,7 +123,7 @@ koml 파일에 다음 케이스들을 추가해주세요.
 ```python
 from koml import KomlBot, CustomBag
 
-bag = CustomBag(funcs={'know': know})
+bag = CustomBag(funcs={'plus': plus})
 
 bot = KomlBot(bag)
 bot.learn(['custom_function.xml'])
@@ -154,12 +134,6 @@ bot.converse()
 다음과 같은 결과를 확인할 수 있어요.
 
 ```
-<< 너 내 이름이 뭔지 알아?
->> 아니.. 뭔데?
-<< 홍길동
->> 아 오키ㅋㅋ 이제 기억할게! 
-<< 너 내 이름 뭔지 알아?
->> 응ㅋㅋ 알지
-<< 뭐야
->> 홍길동이잖아ㅋㅋ 날 뭘로 보고
+<< 8 더하기 9 는 뭐니?
+>> 17 이잖아ㅋㅋ 맞지?
 ```
