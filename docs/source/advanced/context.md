@@ -15,20 +15,13 @@ class Context:
 \<get>/\<set>을 할 때 사용되는 dict 에요. 해당되는 키-값을 조회해서 \<get>/\<set>을 실행해요.
 
 
-다음은 커스텀 함수에서 memo 를 조회하는 예시에요.
-```python
-def know(name: str, context: Context|None=None) -> str:
-    if name in context.memo:
-        return 'true'
-    else:
-        return 'false'
-```
+
 
 <br>
 
 ### history
 
-대화 기록을 저장해놓는 list 에요. list 의 아이템인 Chat 의 구성 요소는 다음과 같아요.
+대화 기록을 저장해놓는 list[Chat] 에요. list 의 아이템인 Chat 의 구성 요소는 다음과 같아요.
 ```python
 class Chat:
     def __init__(self, question: str, answer: str, cid: str|None=None) -> None:
