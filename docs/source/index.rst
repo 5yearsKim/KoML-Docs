@@ -1,6 +1,12 @@
+.. meta::
+    :description lang=ko:
+      누구나 한국어 챗봇을 쉽게 제작할 수 있는 파이썬 챗봇 빌더, KoML입니다.
 
-KoML Documentation
-------------------
+
+
+
+한국어 챗봇 빌더, KoML
+-------------------
 
 .. include:: ./intro.md
    :parser: myst_parser.sphinx_
